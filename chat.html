@@ -38,31 +38,44 @@
   }
 
   async function sendMessage() {
-    const message = input.value.trim();
-    if (!message) return;
+  const message = input.value.trim();
+  if (!message || input.disabled) return; // Prevent sending if input is empty or disabled
 
-    addMessage(message, 'user');
-    input.value = '';
+  addMessage(message, 'user');
+  input.value = '';
+  input.disabled = true; // Disable input
+  const sendButton = document.querySelector('#inputArea button');
+  sendButton.disabled = true;
 
-    try {
-      const response = await fetch('http://localhost:5678/webhook/ed67d34d-4d68-4992-9018-32ca63d239ed', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId:"aaa",prompt: message })
-      });
+  const pendingDiv = document.createElement('div');
+  pendingDiv.className = 'message bot';
+  pendingDiv.textContent = 'En attente de réponse...';
+  chatbox.appendChild(pendingDiv);
+  chatbox.scrollTop = chatbox.scrollHeight;
 
-      if (!response.ok) throw new Error('Erreur API');
+  try {
+    const response = await fetch('http://localhost:5678/webhook/ed67d34d-4d68-4992-9018-32ca63d239ed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: "aaa", prompt: message })
+    });
 
-      const data = await response.json();
+    if (!response.ok) throw new Error('Erreur API');
 
-      // Adjust this based on your API response structure
-      const answer = data.output || "Pas de réponse";
+    const data = await response.json();
+    const answer = data.output || "Pas de réponse";
 
-      addMessage(answer, 'bot');
-    } catch (error) {
-      addMessage('Erreur lors de la requête : ' + error.message, 'bot');
-    }
+    pendingDiv.remove(); // Remove the "pending..." message
+    addMessage(answer, 'bot');
+  } catch (error) {
+    pendingDiv.remove();
+    addMessage('Erreur : ' + error.message, 'bot');
+  } finally {
+    input.disabled = false; // Re-enable input
+    sendButton.disabled = false;
+    input.focus();
   }
+}
 
   // Optional: send message on Enter key press
   input.addEventListener('keydown', e => {
