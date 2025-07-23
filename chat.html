@@ -13,7 +13,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
+      height: 90vh;
     }
 
     h2 {
@@ -142,7 +142,7 @@
         const response = await fetch('http://localhost:5678/webhook/ed67d34d-4d68-4992-9018-32ca63d239ed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId: "aaa", prompt: message })
+          body: JSON.stringify({ sessionId: Date.now().toString(), prompt: message })
         });
 
         if (!response.ok) throw new Error('Erreur API');
