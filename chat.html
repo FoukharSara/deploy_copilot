@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Copilot Chat</title>
-<style>
-  body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; }
-  #chatbox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; }
-  .message { margin: 5px 0; }
-  .user { text-align: right; color: blue; }
-  .bot { text-align: left; color: green; }
-  #inputArea { margin-top: 10px; }
-  #inputArea input { width: 80%; padding: 8px; }
-  #inputArea button { padding: 8px 12px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Copilot Chat</title>
+
 </head>
 <body>
 
-<h2>Copilot Chat</h2>
-<div id="chatbox"></div>
+  <h2>Copilot Chat</h2>
+  <div id="chatbox"></div>
 
-<div id="inputArea">
-  <input type="text" id="userInput" placeholder="Pose ta question..." />
-  <button onclick="sendMessage()">Envoyer</button>
-</div>
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Posez votre question..." />
+    <button onclick="sendMessage()">Envoyer</button>
+  </div>
+
 
 <script>
   const chatbox = document.getElementById('chatbox');
